@@ -32,5 +32,8 @@ namespace PepegaFoodServer.Contracts.Requests
 
         [Range(0, 1000000)]
         public float SecondaryPrice { get; set; }
+
+        [MinLength(2, ErrorMessage = "Lenght should be more then 1 chars")]
+        public string[] Shops { get; set; }
     }
 }
