@@ -19,11 +19,11 @@ namespace PepegaFoodServer.Services
 {
     public class IdentityService : IIdentityService
     {
-        private readonly UserManager<UserModel> _userManager;
+        private readonly UserManager<UserDBModel> _userManager;
         private readonly JwtSettings _jwtSettings;
         private readonly DataContext _dataContext;
 
-        public IdentityService(UserManager<UserModel> userManager, JwtSettings jwtSettings, PasswordOptions passOptions, DataContext dataContext)
+        public IdentityService(UserManager<UserDBModel> userManager, JwtSettings jwtSettings, PasswordOptions passOptions, DataContext dataContext)
         {
             _userManager = userManager;
             _jwtSettings = jwtSettings;
@@ -42,7 +42,7 @@ namespace PepegaFoodServer.Services
 
             var userName = userInfo.Email.Substring(0, userInfo.Email.LastIndexOf('@'));
 
-            var newUser = new UserModel
+            var newUser = new UserDBModel
             {
                 Email = userInfo.Email,
                 UserName = userName,
@@ -94,7 +94,7 @@ namespace PepegaFoodServer.Services
             return await result.ToListAsync();
         }
 
-        private AuthResultModel GenerateAuthResultForUser(UserModel userModel)
+        private AuthResultModel GenerateAuthResultForUser(UserDBModel userModel)
         {
             var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtSettings.Secret));
 

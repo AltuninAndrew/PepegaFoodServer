@@ -36,7 +36,7 @@ namespace PepegaFoodServer
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<UserModel>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<UserDBModel>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<DataContext>();
 
 
@@ -50,6 +50,7 @@ namespace PepegaFoodServer
 
             services.AddScoped<IIdentityService, IdentityService>();
             services.AddScoped<IUserDataService, UserDataService>();
+            services.AddScoped<IProductsService, ProductsService>();
 
 
             services.AddAuthentication(x =>

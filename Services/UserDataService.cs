@@ -13,10 +13,10 @@ namespace PepegaFoodServer.Services
 {
     public class UserDataService : IUserDataService
     {
-        private readonly UserManager<UserModel> _userManager;
+        private readonly UserManager<UserDBModel> _userManager;
         private readonly DataContext _dataContext;
 
-        public UserDataService(UserManager<UserModel> userManager, DataContext dataContext)
+        public UserDataService(UserManager<UserDBModel> userManager, DataContext dataContext)
         {
             _userManager = userManager;
             _dataContext = dataContext;

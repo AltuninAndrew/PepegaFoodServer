@@ -1,9 +1,8 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace PepegaFoodServer.Models.DbModels
 {
-    public class ShopModel
+    public class ShopDBModel
     {
         [Key]
         public int ShopId { get; set; }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PepegaFoodServer.Models.DbModels
 {
-    public class UserModel:IdentityUser
+    public class UserDBModel:IdentityUser
     {
         [Required]
         public string FirstName { get; set; }

@@ -2,13 +2,13 @@
 
 namespace PepegaFoodServer.Models.DbModels
 {
-    public class ImageProductModel
+    public class CategoryDBModel
     {
+        
         [Key]
-        public int ImageId { get; set; }
+        public int CategoryID { get; set; }
 
         [Required]
-        public string ImageUrl { get; set; }
-
+        public string Name { get; set; }
     }
 }

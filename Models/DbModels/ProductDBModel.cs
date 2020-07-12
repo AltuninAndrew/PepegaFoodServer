@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PepegaFoodServer.Models.DbModels
 {
-    public class ProductModel
+    public class ProductDBModel
     {
         [Key]
         public int ProductId { get; set; }
@@ -18,7 +14,7 @@ namespace PepegaFoodServer.Models.DbModels
         public int ImageId { get; set; }
 
         [ForeignKey(nameof(ImageId))]
-        public ImageProductModel ImageProductUrl { get; set; }
+        public ImageProductDBModel ImageProductUrl { get; set; }
 
         [Required]
         public float Count { get; set; }
@@ -27,13 +23,13 @@ namespace PepegaFoodServer.Models.DbModels
         public int CounteTypeId { get; set; }
 
         [ForeignKey(nameof(CounteTypeId))]
-        public CountTypeModel CountType { get; set; }
+        public CountTypeDBModel CountType { get; set; }
 
         [Required]
         public int CategoryId { get; set; }
 
         [ForeignKey(nameof(CategoryId))]
-        public CategoryModel Category { get; set; }
+        public CategoryDBModel Category { get; set; }
 
         [Required]
         public float PrimaryPrice { get; set; }
