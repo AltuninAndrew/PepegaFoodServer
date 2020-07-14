@@ -104,29 +104,82 @@ namespace PepegaFoodServer.Services
 
         }
 
-        public Task<IEnumerable<CategoryDBModel>> GetCategories()
+        public async Task<IEnumerable<CategoryDBModel>> GetCategories()
         {
-            throw new NotImplementedException();
+            var result = await _dataContext.Categories?.ToArrayAsync();
+            
+            return result;
         }
 
-        public Task<int> GetNumOfAllPages()
+        public int GetNumOfAllPages(int numProductsOnPage)
         {
-            throw new NotImplementedException();
+            var productsCount = _dataContext.Products?.Count();
+
+            var result = (numProductsOnPage <=0)
+                ? productsCount ?? 0
+                : (int)Math.Ceiling((float)productsCount / (float)numProductsOnPage);
+
+            return result;
         }
 
-        public Task<int> GetNumOfPagesForCategory(string categoryName)
+        public async Task<int> GetNumOfPagesWithProductsForCategory(string categoryName, int numProductsOnPage)
         {
-            throw new NotImplementedException();
+            var categoryId = (await _dataContext.Categories.FirstOrDefaultAsync(x=>x.Name == categoryName)).CategoryID;
+
+            var productsCount = _dataContext.Products.Where(x => x.CategoryId == categoryId)?.Count();
+
+            var result = (numProductsOnPage <= 0)
+                ? productsCount ?? 0
+                : (int)MathF.Ceiling((float)productsCount / (float)numProductsOnPage);
+
+            return result;
+
         }
 
-        public Task<ProductModel> GetProductById(int productId)
+        public async Task<ProductModel> GetProductById(int productId)
         {
-            throw new NotImplementedException();
+            var product = await _dataContext.Products
+                .Include(x => x.Category)
+                .Include(x => x.ImageProductUrl)
+                .Include(x => x.CountType)
+                .FirstOrDefaultAsync(x => x.ProductId == productId);
+            
+            var productModel = (product != null) ? new ProductModel
+            {
+                Category = product.Category?.Name,
+                Count = product.Count,
+                CountType = product.CountType?.Name,
+                ImageProductUrl = product.ImageProductUrl?.ImageUrl,
+                Name = product.Name,
+                PrimaryPrice = product.PrimaryPrice,
+                ProductId = productId,
+                SecondaryPrice = product.SecondaryPrice,
+            } : null;
+
+            return productModel;
         }
 
-        public Task<ProductModel> GetProductByName(string productName)
+        public async Task<ProductModel> GetProductByName(string productName)
         {
-            throw new NotImplementedException();
+            var product = await _dataContext.Products
+              .Include(x => x.Category)
+              .Include(x => x.ImageProductUrl)
+              .Include(x => x.CountType)
+              .FirstOrDefaultAsync(x => x.Name == productName);
+
+            var productModel = (product != null) ? new ProductModel
+            {
+                Category = product.Category?.Name,
+                Count = product.Count,
+                CountType = product.CountType?.Name,
+                ImageProductUrl = product.ImageProductUrl?.ImageUrl,
+                Name = product.Name,
+                PrimaryPrice = product.PrimaryPrice,
+                ProductId = product.ProductId,
+                SecondaryPrice = product.SecondaryPrice,
+            } : null;
+
+            return productModel;
         }
 
         public Task<IEnumerable<ProductModel>> GetProducts(int pageSize = 0)
@@ -139,14 +192,86 @@ namespace PepegaFoodServer.Services
             throw new NotImplementedException();
         }
 
-        public Task<ChangedInformationResultModel> RemoveProducts(int[] productsId)
+        public async Task<ChangedInformationResultModel> RemoveProducts(int[] productsId)
         {
-            throw new NotImplementedException();
+            List<ProductDBModel> productDBModels = new List<ProductDBModel>();
+            foreach(var productId in productsId)
+            {
+                var existProduct = await _dataContext.Products.FirstOrDefaultAsync(x => x.ProductId == productId);
+
+                if(existProduct != null)
+                {
+                    productDBModels.Add(existProduct);
+                }
+            }
+
+            if(productDBModels.Count >0)
+            {
+                _dataContext.Products.RemoveRange(productDBModels);
+                await _dataContext.SaveChangesAsync();
+
+                if(productsId.Length == productDBModels.Count)
+                {
+                    return new ChangedInformationResultModel { Success = true };
+                }
+                else
+                {
+                    return new ChangedInformationResultModel { Success = true, ErrorsMessages = new[] {"Некоторых продуктов не существует"} };
+                }
+                
+            }
+            else
+            {
+                return new ChangedInformationResultModel { Success = false };
+            }
+
+
         }
 
-        public Task<ChangedInformationResultModel> UpdateProduct(ProductModel product)
+        public async Task<ChangedInformationResultModel> UpdateProduct(UpdateProductRequest product)
         {
-            throw new NotImplementedException();
+            var existProduct = await _dataContext.Products.FirstOrDefaultAsync(x => x.ProductId == product.ProductId);
+
+            if(existProduct == null)
+            {
+                return new ChangedInformationResultModel { Success = false, ErrorsMessages = new[] { "Продукт не найден" } };
+            }
+
+            if(product.NewCategory != null)
+            {
+
+            }
+
+            if(product.NewCount != null)
+            {
+
+            }
+
+            if(product.NewCountType != null)
+            {
+
+            }
+
+            if(product.NewImageProductUrl !=null)
+            {
+
+            }   
+            
+            if(product.NewName != null)
+            {
+
+            }
+
+            if(product.NewPrimaryPrice != null)
+            {
+
+            }
+
+            if(product.NewSecondaryPrice != null)
+            {
+
+            }
+            
         }
     }
 }

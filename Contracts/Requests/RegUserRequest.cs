@@ -18,9 +18,6 @@ namespace PepegaFoodServer.Contracts.Requests
         [Phone]
         public string PhoneNumber { get; set; }
 
-        [MinLength(2, ErrorMessage = "Last name lenght should be more then 1 chars")]
-        public string Address { get; set; }
-
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

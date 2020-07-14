@@ -14,13 +14,13 @@ namespace PepegaFoodServer.Services.Interfaces
         public Task<ChangedInformationResultModel> AddProducts(AddNewProductRequest[] products);
 
         // получить количество страниц для всех продуктов
-        public Task<int> GetNumOfAllPages();
+        public int GetNumOfAllPages(int numProductsOnPage);
 
         // получить коллекцию продуктов
         public Task<IEnumerable<ProductModel>> GetProducts(int pageSize = 0);
 
         // получить количество страниц для продуктов указанной категории
-        public Task<int> GetNumOfPagesForCategory(string categoryName);
+        public Task<int> GetNumOfPagesWithProductsForCategory(string categoryName, int numProductsOnPage);
 
         // получить коллекцию продуктов по указанной категории
         public Task<IEnumerable<ProductModel>> GetProductsByCategory(string categoryName);
@@ -29,7 +29,7 @@ namespace PepegaFoodServer.Services.Interfaces
         public Task<ChangedInformationResultModel> RemoveProducts(int[] productsId);
 
         // обновить продукт
-        public Task<ChangedInformationResultModel> UpdateProduct(ProductModel product);
+        public Task<ChangedInformationResultModel> UpdateProduct(UpdateProductRequest product);
 
         // Найти продукт по имени
         public Task<ProductModel> GetProductByName(string productName);

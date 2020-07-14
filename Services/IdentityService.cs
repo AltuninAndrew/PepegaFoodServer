@@ -48,7 +48,6 @@ namespace PepegaFoodServer.Services
                 UserName = userName,
                 FirstName = userInfo.FirstName,
                 LastName = userInfo.LastName,
-                Address = userInfo.Address,
                 PhoneNumber = userInfo.PhoneNumber,
             };
 
